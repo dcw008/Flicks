@@ -19,6 +19,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.dataSource = self
+        tableView.delegate = self
 
         //Network api request
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
@@ -61,13 +64,15 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         // index path tells the cell where it is in the tableView
         
-        let cell = tableView.dequeueReusableCell( withIdentifier: "MovieCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell( withIdentifier: "MovieCell", for: indexPath) as! MovieCell
         
         let movie = movies![indexPath.row]
-        
         let title = movie["title"] as! String
+        let overview = movie["overview"] as! String
         
-        cell.textLabel!.text = title
+        cell.titleLabel.text = title;
+        cell.overviewLabel.text = overview;
+        
         return cell
     }
     
