@@ -8,9 +8,9 @@
 
 import UIKit
 import AFNetworking
+import MBProgressHUD
 
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
     
     //outlet to the table view
     @IBOutlet weak var tableView: UITableView!
@@ -23,6 +23,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+
 
         //Network api request
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
@@ -30,7 +32,16 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
         
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
+        
+        //Display HUD before the request is made
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        
+
+        
         let task: URLSessionDataTask = session.dataTask(with: request as URLRequest,completionHandler: { (dataOrNil, response, error) in
+            
+            // Hide HUD once the network request comes back (must be done on main UI thread)
+            MBProgressHUD.hide(for: self.view, animated: true)
             
             if let data = dataOrNil {
                 
@@ -40,8 +51,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                     self.movies = responseDictionary["results"] as? [NSDictionary]
                     self.tableView.reloadData()
                     
+
+                    
                 }
             }
+
         })
         task.resume()
     
