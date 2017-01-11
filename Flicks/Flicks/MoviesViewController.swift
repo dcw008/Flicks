@@ -70,6 +70,12 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         task.resume()
     
     }
+    
+    //deselects the gray area after user pushes on the cell
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+        //deselect of the gray cell
+        tableView.deselectRow(at: indexPath, animated:true)
+    }
 
 
     // Makes a network request to get updated data
