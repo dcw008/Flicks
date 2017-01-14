@@ -19,6 +19,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     //array of dictionaries that represent each movie
     var movies: [NSDictionary]?
     
+    var endpoint: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,7 +41,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         //Network api request
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
-        let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
+        let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10);
         
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
         
