@@ -2,18 +2,32 @@
 
 **Flicks** is a movies app displaying box office and top rental DVDs using [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **7** hours spent in total
+Time spent: **8+7 = 15** hours spent in total
 
 ## User Stories
 
 The following **required** functionality is completed:
 
+Week 1:
+- [x] User can view a list of movies currently playing in theaters from The Movie Database.
+- [x] Poster images are loaded using the UIImageView category in the AFNetworking library.
+- [x] User sees a loading state while waiting for the movies API.
+- [x] User can pull to refresh the movie list.
+
+Week 2:
 - [x] User can view movie details by tapping on a cell.
 - [x] User can select from a tab bar for either **Now Playing** or **Top Rated** movies.
 - [x] Customize the selection effect of the cell.
 
 The following **optional** features are implemented:
+Week 1:
+- [ ] User sees an error message when there's a networking error.
+- [ ] Movies are displayed using a CollectionView instead of a TableView.
+- [ ] User can search for a movie.
+- [ ] All images fade in as they are loading.
+- [ ] Customize the UI.
 
+Week 2:
 - [ ] For the large poster, load the low resolution image first and then switch to the high resolution image when complete.
 - [ ] Customize the navigation bar.
 
