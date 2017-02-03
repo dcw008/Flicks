@@ -5,7 +5,7 @@
 
 Time spent: **17** hours spent in total
 
-Time spent: **12+7 = 15** hours spent in total
+Time spent: **10+7 = 17** hours spent in total
 
 
 ## User Stories
