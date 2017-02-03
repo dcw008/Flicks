@@ -34,7 +34,7 @@ The following **optional** features are implemented:
 
 =======
 Week 1:
->>>>>>> origin
+
 - [ ] User sees an error message when there's a networking error.
 - [ ] Movies are displayed using a CollectionView instead of a TableView.
 - [x] User can search for a movie.
