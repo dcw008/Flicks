@@ -9,10 +9,60 @@
 import UIKit
 
 class MovieCell: UITableViewCell {
+    
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var overviewLabel: UILabel!
     @IBOutlet weak var posterView: UIImageView!
+    
+
+
+
+    
+    var movie: NSDictionary!{
+        didSet{
+            let title = movie["title"] as! String
+            let overview = movie["overview"] as! String
+
+            self.titleLabel.text = title;
+            self.overviewLabel.text = overview;
+            
+//            let imageUrl = "https://i.imgur.com/tGbaZCY.jpg"
+//            let imageRequest = NSURLRequest(url: NSURL(string: imageUrl)! as URL)
+
+
+            if let posterPath = movie["poster_path"] as? String {
+                let posterBaseUrl = "http://image.tmdb.org/t/p/w500"
+                let posterUrl = NSURL(string: posterBaseUrl + posterPath)
+                let imageRequest = NSURLRequest(url: posterUrl as! URL)
+                self.posterView.setImageWith(imageRequest as URLRequest,
+                    placeholderImage: nil,
+                    success: { (imageRequest, imageResponse, image) -> Void in
+                        
+                        // imageResponse will be nil if the image is cached
+                        if imageResponse != nil {
+                            print("Image was NOT cached, fade in image")
+                            self.posterView.alpha = 0.0
+                            self.posterView.image = image
+                            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                                self.posterView.alpha = 1.0
+                            })
+                        } else {
+                            print("Image was cached so just update the image")
+                            self.posterView.image = image
+                        }
+                },
+                failure: { (imageRequest, imageResponse, error) -> Void in
+                    // do something for the failure condition
+                    self.posterView.image = nil
+                })
+            }
+        }
+    }
+
+    
+
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

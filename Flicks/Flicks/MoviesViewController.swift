@@ -19,6 +19,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     //outlet to the search bar
     @IBOutlet weak var searchBar: UISearchBar!
     
+    
     //array of dictionaries that represent each movie
     var movies: [NSDictionary]?
     
@@ -34,7 +35,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         // Initialize a UIRefreshControl
         let refreshControl = UIRefreshControl()
         
-        
+        //self.tableView.frame = UIScreen.main.bounds
         refreshControl.addTarget(self, action: #selector(refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
         
         // add refresh control to table view
@@ -63,7 +64,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         MBProgressHUD.showAdded(to: self.view, animated: true)
         
 
-        
+        //set the task
         let task: URLSessionDataTask = session.dataTask(with: request as URLRequest,completionHandler: { (dataOrNil, response, error) in
             
             // Hide HUD once the network request comes back (must be done on main UI thread)
@@ -83,7 +84,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                     
                 }
             }
-
+            
         })
         task.resume()
     
@@ -151,42 +152,56 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let cell = tableView.dequeueReusableCell( withIdentifier: "MovieCell", for: indexPath) as! MovieCell
         
         let movie = filteredData![indexPath.row]
-        let title = movie["title"] as! String
-        let overview = movie["overview"] as! String
-        
-        cell.titleLabel.text = title;
-        cell.overviewLabel.text = overview;
-        
-        if let posterPath = movie["poster_path"] as? String {
-            let posterBaseUrl = "http://image.tmdb.org/t/p/w500"
-            let posterUrl = NSURL(string: posterBaseUrl + posterPath)
-            cell.posterView.setImageWith(posterUrl as! URL)
-        }
-        else {
-            // No poster image. Can either set to nil (no image) or a default movie poster image
-            // that you include as an asset
-            cell.posterView.image = nil
-        }
-        
+        cell.movie = movie
+//        let title = movie["title"] as! String
+//        let overview = movie["overview"] as! String
+//        
+//        cell.titleLabel.text = title;
+//        cell.overviewLabel.text = overview;
+//        
+//        if let posterPath = movie["poster_path"] as? String {
+//            let posterBaseUrl = "http://image.tmdb.org/t/p/w500"
+//            let posterUrl = NSURL(string: posterBaseUrl + posterPath)
+//            cell.posterView.setImageWith(posterUrl as! URL)
+//        }
+//        else {
+//            // No poster image. Can either set to nil (no image) or a default movie poster image
+//            // that you include as an asset
+//            cell.posterView.image = nil
+//        }
+//        
         return cell
     }
-    
-    // This method updates filteredData based on the text in the Search Box
+
+    //This method updates filteredData based on the text in the Search Box
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        // When there is no text, filteredData is the same as the original data
-        // When user has entered text into the search box
-        // Use the filter method to iterate over all items in the data array
-        // For each item, return true if the item should be included and false if the
-        // item should NOT be included
-        filteredData = searchText.isEmpty ? movies : movies?.filter({(dataString: NSDictionary) -> Bool in
-            // If dataItem matches the searchText, return true to include it
-            return dataString.range(of: searchText, options: .caseInsensitive) != nil
+         //When there is no text, filteredData is the same as the original data
+         //When user has entered text into the search box
+         //Use the filter method to iterate over all items in the data array
+         //For each item, return true if the item should be included and false if the
+         //item should NOT be included
+            filteredData = searchText.isEmpty ? movies : movies?.filter({(movie: NSDictionary) -> Bool in
+         //If dataItem matches the searchText, return true to include it
+            let movieTitle = movie["title"] as! String
+            return movieTitle.range(of: searchText, options: .caseInsensitive) != nil
         })
         
         tableView.reloadData()
     }
+ 
     
-
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        self.filteredData = self.movies
+        self.tableView.reloadData()
+        
+    }
 
     // MARK: - Navigation
 
@@ -202,6 +217,35 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         detailViewController.movie = movie
         
     }
+    
+//    func fadeIn(){
+//        
+//        let imageUrl = "https://i.imgur.com/tGbaZCY.jpg"
+//        let imageRequest = NSURLRequest(url: NSURL(string: imageUrl)! as URL)
+//        
+//        
+//        self.MovieCell.poserView.setImageWithURLRequest(
+//            imageRequest,
+//            placeholderImage: nil,
+//            success: { (imageRequest, imageResponse, image) -> Void in
+//                
+//                // imageResponse will be nil if the image is cached
+//                if imageResponse != nil {
+//                    print("Image was NOT cached, fade in image")
+//                    self.myImageView.alpha = 0.0
+//                    self.myImageView.image = image
+//                    UIView.animateWithDuration(0.3, animations: { () -> Void in
+//                        self.myImageView.alpha = 1.0
+//                    })
+//                } else {
+//                    print("Image was cached so just update the image")
+//                    self.myImageView.image = image
+//                }
+//        },
+//            failure: { (imageRequest, imageResponse, error) -> Void in
+//                // do something for the failure condition
+//        })
+//    }
     
     
     
