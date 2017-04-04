@@ -48,6 +48,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         //set the delegate
         searchBar.delegate = self
         
+        
         //initialize filteredData to default data
         filteredData = movies
         
@@ -79,8 +80,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                     self.movies = responseDictionary["results"] as? [NSDictionary]
                     self.filteredData = self.movies
                     self.tableView.reloadData()
-                    
-
                     
                 }
             }

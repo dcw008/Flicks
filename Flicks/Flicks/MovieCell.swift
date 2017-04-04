@@ -7,25 +7,28 @@
 //
 
 import UIKit
+   
+   protocol MovieCellDelegate: class {
+    
+   }
 
 class MovieCell: UITableViewCell {
     
 
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var overviewLabel: UILabel!
+    
+    @IBOutlet weak var overviewView: UITextView!
     @IBOutlet weak var posterView: UIImageView!
-    
 
 
-
-    
     var movie: NSDictionary!{
         didSet{
             let title = movie["title"] as! String
             let overview = movie["overview"] as! String
 
             self.titleLabel.text = title;
-            self.overviewLabel.text = overview;
+            self.overviewView.text = overview;
+            self.overviewView.isEditable = false
             
 //            let imageUrl = "https://i.imgur.com/tGbaZCY.jpg"
 //            let imageRequest = NSURLRequest(url: NSURL(string: imageUrl)! as URL)
