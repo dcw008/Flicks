@@ -31,8 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //set the tab bar color
         let tabBar = UITabBar.appearance()
-        tabBar.barTintColor = UIColor.black
-        tabBar.tintColor = UIColor.white
+        tabBar.barTintColor = UIColor.white
+        tabBar.tintColor = UIColor(red:0.96, green:0.17, blue:0.50, alpha:1.0)
         
         let topRatedNavigationController = storyboard.instantiateViewController(withIdentifier: "MoviesNavigationController") as! UINavigationController
         let topRatedViewController = topRatedNavigationController.topViewController as! MoviesViewController
