@@ -25,13 +25,15 @@ class MovieCell: UITableViewCell {
         didSet{
             let title = movie["title"] as! String
             let overview = movie["overview"] as! String
-
-            self.titleLabel.text = title;
+            
+//            let voteAverage = movie["vote_average"] as! Float
+            
+//            self.titleLabel.text = String(voteAverage)
+            
+            self.titleLabel.text = title
             self.overviewView.text = overview;
             self.overviewView.isEditable = false
             
-//            let imageUrl = "https://i.imgur.com/tGbaZCY.jpg"
-//            let imageRequest = NSURLRequest(url: NSURL(string: imageUrl)! as URL)
 
 
             if let posterPath = movie["poster_path"] as? String {
@@ -60,6 +62,7 @@ class MovieCell: UITableViewCell {
                     self.posterView.image = nil
                 })
             }
+            
         }
     }
 
