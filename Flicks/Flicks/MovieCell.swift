@@ -17,23 +17,49 @@ class MovieCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     
-    @IBOutlet weak var overviewView: UITextView!
     @IBOutlet weak var posterView: UIImageView!
 
+    @IBOutlet weak var ratingLabel: UILabel!
 
+    @IBOutlet weak var dateLabel: UILabel!
+    
+    
     var movie: NSDictionary!{
         didSet{
             let title = movie["title"] as! String
-            let overview = movie["overview"] as! String
+            let rating = movie["vote_average"] as! Float
+            let releaseDate = movie["release_date"] as! String
             
-//            let voteAverage = movie["vote_average"] as! Float
+            //format the date to just be the year
+            let dateFormatter = DateFormatter();
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let date = dateFormatter.date(from: releaseDate)
+            dateFormatter.dateFormat = "yyyy"
+            let dateText = dateFormatter.string(from: date!)
             
-//            self.titleLabel.text = String(voteAverage)
+            
+            ratingLabel.text = "\(rating)/10"
+            ratingLabel.textColor = UIColor.white
+            
+            //set the background color
+            var color: UIColor
+            if rating > 8{
+                color = UIColor.green
+            } else if rating > 6.5 {
+                color = UIColor.orange
+            } else{
+                color = UIColor.red
+            }
+            
+            ratingLabel.layer.backgroundColor = color.cgColor
+            ratingLabel.layer.cornerRadius = 5.0       
+            
+            
+            
             
             self.titleLabel.text = title
-            self.overviewView.text = overview;
-            self.overviewView.isEditable = false
             
+            self.dateLabel.text = dateText
 
 
             if let posterPath = movie["poster_path"] as? String {

@@ -65,33 +65,35 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="SBJ-Jq-wb4">
-                                                    <rect key="frame" x="109" y="35.5" width="227" height="128"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="128" id="Slq-YS-dPB"/>
-                                                        <constraint firstAttribute="width" constant="227" id="nmv-Ci-AO1"/>
-                                                    </constraints>
-                                                    <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
-                                                    <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="usM-D7-trD">
+                                                    <rect key="frame" x="109" y="36" width="42" height="17"/>
+                                                    <fontDescription key="fontDescription" name="Poppins-Bold" family="Poppins" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8zz-cj-kKq">
+                                                    <rect key="frame" x="110" y="57" width="28" height="17"/>
+                                                    <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="SBJ-Jq-wb4" firstAttribute="leading" secondItem="gWA-pf-keH" secondAttribute="trailing" constant="7" id="3QW-37-CXx"/>
                                                 <constraint firstItem="yRZ-JV-mFM" firstAttribute="leading" secondItem="gWA-pf-keH" secondAttribute="trailing" constant="7" id="692-Z5-hh9"/>
                                                 <constraint firstAttribute="leadingMargin" secondItem="gWA-pf-keH" secondAttribute="leading" id="Voo-r6-VZ0"/>
-                                                <constraint firstItem="SBJ-Jq-wb4" firstAttribute="top" secondItem="yRZ-JV-mFM" secondAttribute="bottom" constant="2" id="cRp-tp-AqN"/>
                                                 <constraint firstAttribute="topMargin" secondItem="gWA-pf-keH" secondAttribute="top" id="flZ-kH-E9a"/>
+                                                <constraint firstItem="usM-D7-trD" firstAttribute="top" secondItem="yRZ-JV-mFM" secondAttribute="bottom" constant="2.5" id="hkD-b6-8ft"/>
+                                                <constraint firstItem="8zz-cj-kKq" firstAttribute="leading" secondItem="gWA-pf-keH" secondAttribute="trailing" constant="8" id="hkE-TP-pee"/>
+                                                <constraint firstItem="8zz-cj-kKq" firstAttribute="top" secondItem="usM-D7-trD" secondAttribute="bottom" constant="4" id="s3u-Ho-Urj"/>
+                                                <constraint firstItem="usM-D7-trD" firstAttribute="leading" secondItem="gWA-pf-keH" secondAttribute="trailing" constant="7" id="tuf-fN-jap"/>
                                                 <constraint firstAttribute="topMargin" secondItem="yRZ-JV-mFM" secondAttribute="top" id="uQr-BS-Sc2"/>
                                                 <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="yRZ-JV-mFM" secondAttribute="trailing" constant="20" id="z6Q-OK-t0V"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="SBJ-Jq-wb4" secondAttribute="trailing" constant="39" id="2SS-QZ-Tr0"/>
-                                        </constraints>
                                         <connections>
-                                            <outlet property="overviewView" destination="SBJ-Jq-wb4" id="7Gq-bg-4ce"/>
+                                            <outlet property="dateLabel" destination="8zz-cj-kKq" id="7Lv-kv-t3N"/>
                                             <outlet property="posterView" destination="gWA-pf-keH" id="84u-f2-aUZ"/>
+                                            <outlet property="ratingLabel" destination="usM-D7-trD" id="gsu-vM-W9W"/>
                                             <outlet property="titleLabel" destination="yRZ-JV-mFM" id="OO6-iI-dWy"/>
                                             <segue destination="46C-Sl-QD7" kind="push" id="0Gh-ja-BEA"/>
                                         </connections>
@@ -180,7 +182,7 @@
             <objects>
                 <navigationController storyboardIdentifier="MoviesNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="aRQ-yC-kND" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="flv-1B-noU">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="flv-1B-noU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.28123104572296143" green="0.0" blue="0.39462518692016602" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

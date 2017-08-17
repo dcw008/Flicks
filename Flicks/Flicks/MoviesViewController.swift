@@ -79,6 +79,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                     //load the data then update filteredData
                     self.movies = responseDictionary["results"] as? [NSDictionary]
                     self.filteredData = self.movies
+                    print(self.movies)
                     self.tableView.reloadData()
                     
                 }
