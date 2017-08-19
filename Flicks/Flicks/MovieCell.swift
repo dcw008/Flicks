@@ -23,12 +23,14 @@ class MovieCell: UITableViewCell {
 
     @IBOutlet weak var dateLabel: UILabel!
     
+    @IBOutlet weak var overviewTextView: UITextView!
     
     var movie: NSDictionary!{
         didSet{
             let title = movie["title"] as! String
             let rating = movie["vote_average"] as! Float
             let releaseDate = movie["release_date"] as! String
+            let overview = movie["overview"] as! String
             
             //format the date to just be the year
             let dateFormatter = DateFormatter();
@@ -51,15 +53,19 @@ class MovieCell: UITableViewCell {
                 color = UIColor.red
             }
             
-            ratingLabel.layer.backgroundColor = color.cgColor
-            ratingLabel.layer.cornerRadius = 5.0       
-            
-            
             
             
             self.titleLabel.text = title
             
             self.dateLabel.text = dateText
+            ratingLabel.layer.backgroundColor = color.cgColor
+            ratingLabel.layer.cornerRadius = 5.0
+            
+            overviewTextView.text = overview
+            overviewTextView.allowsEditingTextAttributes = false
+            overviewTextView.isScrollEnabled = false
+            overviewTextView.isScrollEnabled = true
+            
 
 
             if let posterPath = movie["poster_path"] as? String {

@@ -89,7 +89,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         task.resume()
     
     }
-    
+
     //deselects the gray area after user pushes on the cell
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         //deselect of the gray cell
@@ -153,6 +153,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         let movie = filteredData![indexPath.row]
         cell.movie = movie
+//        cell.overviewTextView.scrollRangeToVisible(NSRange(location: 0, length:0))
 
         return cell
     }
@@ -199,6 +200,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         // pass the movie of the cell clicked on
         detailViewController.movie = movie
+        
+        //detailViewController.gradientLayer.frame = detailViewController.backdropImage.bounds
         
     }
     
