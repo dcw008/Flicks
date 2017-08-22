@@ -51,28 +51,34 @@ class DetailViewController: UIViewController {
         //get the movie id
         let movieId = movie["id"] as! Int
         
-        request(id: movieId)
+        request(id: movieId, completion: {
+            
+            if let detailsDict = self.movieDetails {
+                //set the ui elements on the main thread.
+                let title = detailsDict["title"] as! String
+                let overview = detailsDict["overview"] as! String
+                
+                
+                //set the base url
+                let posterBaseUrl = "http://image.tmdb.org/t/p/w500"
+                
+                
+                // get the poster image
+                if let backdropPath = detailsDict["backdrop_path"] as? String {
+                    let backdropUrl = NSURL(string: posterBaseUrl + backdropPath)
+                    self.backdropImage.setImageWith(backdropUrl as! URL)
+                    self.backdropImage.layer.addSublayer(self.gradientLayer)
+                    self.gradientLayer.frame = self.backdropImage.bounds
+                    
+                }
+                
+                self.titleLabel.text = title
+                self.overviewLabel.text = overview
+            }
+        })
         
         
-        let title = movieDetails?["title"] as! String
-        let overview = movieDetails?["overview"] as! String
         
-        
-        //set the base url
-        let posterBaseUrl = "http://image.tmdb.org/t/p/w500"
-        
-        
-        // get the poster image
-        if let backdropPath = movieDetails?["backdrop_path"] as? String {
-            let backdropUrl = NSURL(string: posterBaseUrl + backdropPath)
-            backdropImage.setImageWith(backdropUrl as! URL)
-            backdropImage.layer.addSublayer(gradientLayer)
-            gradientLayer.frame = backdropImage.bounds
- 
-        }
-        
-        titleLabel.text = title
-        overviewLabel.text = overview
         
      }
 
@@ -94,7 +100,7 @@ class DetailViewController: UIViewController {
     */
     
     //makes a network request to detailed information about the movie
-    func request(id: Int){
+    func request(id: Int, completion: @escaping () -> Void){
         
         //Network api request
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
@@ -110,7 +116,14 @@ class DetailViewController: UIViewController {
                 if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? NSDictionary {
                     //print(responseDictionary)
                     
+                    
+                    
                     self.movieDetails = responseDictionary
+                    
+                    DispatchQueue.main.async {
+                        //change the UI on the main thread
+                        completion()
+                    }
                     
                 }
             }
