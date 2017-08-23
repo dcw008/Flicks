@@ -205,34 +205,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
-//    func fadeIn(){
-//        
-//        let imageUrl = "https://i.imgur.com/tGbaZCY.jpg"
-//        let imageRequest = NSURLRequest(url: NSURL(string: imageUrl)! as URL)
-//        
-//        
-//        self.MovieCell.poserView.setImageWithURLRequest(
-//            imageRequest,
-//            placeholderImage: nil,
-//            success: { (imageRequest, imageResponse, image) -> Void in
-//                
-//                // imageResponse will be nil if the image is cached
-//                if imageResponse != nil {
-//                    print("Image was NOT cached, fade in image")
-//                    self.myImageView.alpha = 0.0
-//                    self.myImageView.image = image
-//                    UIView.animateWithDuration(0.3, animations: { () -> Void in
-//                        self.myImageView.alpha = 1.0
-//                    })
-//                } else {
-//                    print("Image was cached so just update the image")
-//                    self.myImageView.image = image
-//                }
-//        },
-//            failure: { (imageRequest, imageResponse, error) -> Void in
-//                // do something for the failure condition
-//        })
-//    }
+
     
     
     

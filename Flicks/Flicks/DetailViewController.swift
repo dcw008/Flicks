@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import MBProgressHUD
 
 
 class DetailViewController: UIViewController {
@@ -18,38 +18,55 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var overviewLabel: UILabel!
 
+
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    var imageHeight: CGFloat = 0.0
+    
     var movie: NSDictionary! //movie passed through segue
     var movieDetails: NSDictionary? //movie details from the api request
     
+
     var count = 0
     
-    let gradientLayer: CAGradientLayer = {
-        let layer = CAGradientLayer()
-        
-        layer.colors = [UIColor.clear.cgColor, UIColor.white.cgColor]
-        layer.locations = [0.7, 1.0]
-        
-        return layer
-    } ()
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    
-        gradientLayer.frame = backdropImage.bounds
-
-    }
+//    let gradientLayer: CAGradientLayer = {
+//        let layer = CAGradientLayer()
+//        
+//        layer.colors = [UIColor.clear.cgColor, UIColor.white.cgColor]
+//        layer.locations = [0.7, 1.0]
+//        
+//        return layer
+//    } ()
+//    
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//    
+//        gradientLayer.frame = backdropImage.bounds
+//
+//    }
 
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.scrollView.delegate = self
+        
+        //offset = -self.scrollView.contentOffset.y
+        
+        imageHeight = self.backdropImage.frame.height
+        
+        print("original image height: \(imageHeight)")
+        
+        self.titleLabel.textColor = UIColor.white
+        self.overviewLabel.textColor = UIColor.white
 
-//        //set title and overview
-//        let title = movie["title"] as! String
-//        let overview = movie["overview"] as! String
         
         //get the movie id
         let movieId = movie["id"] as! Int
+        
+        //Display HUD before the request is made
+        MBProgressHUD.showAdded(to: self.view, animated: true)
         
         request(id: movieId, completion: {
             
@@ -67,16 +84,20 @@ class DetailViewController: UIViewController {
                 if let backdropPath = detailsDict["backdrop_path"] as? String {
                     let backdropUrl = NSURL(string: posterBaseUrl + backdropPath)
                     self.backdropImage.setImageWith(backdropUrl as! URL)
-                    self.backdropImage.layer.addSublayer(self.gradientLayer)
-                    self.gradientLayer.frame = self.backdropImage.bounds
+//                    self.backdropImage.layer.addSublayer(self.gradientLayer)
+//                    self.gradientLayer.frame = self.backdropImage.bounds
                     
                 }
                 
                 self.titleLabel.text = title
                 self.overviewLabel.text = overview
+                
+                self.titleLabel.textColor = UIColor.black
+                self.overviewLabel.textColor = UIColor.black
+                
+                MBProgressHUD.hide(for: self.view, animated: true)
             }
         })
-        
         
         
         
@@ -132,5 +153,31 @@ class DetailViewController: UIViewController {
         
         
         
-    } 
+    }
+    
+
+}
+
+extension DetailViewController: UIScrollViewDelegate{
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+       
+       
+        
+        //print(scrollView.contentOffset.y)
+        var height = self.imageHeight
+        var headerRect = CGRect(x:0, y:0, width: scrollView.bounds.width, height: self.imageHeight)
+        if(scrollView.contentOffset.y + 64) < 0{
+            headerRect.origin.y = scrollView.contentOffset.y + 64
+            headerRect.size.height = -(64 + scrollView.contentOffset.y) + self.imageHeight
+            
+            
+        }
+        print(headerRect.size.height)
+        self.backdropImage.frame = headerRect
+        
+        
+    }
+    
 }
