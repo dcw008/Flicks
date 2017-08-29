@@ -25,42 +25,8 @@ class DetailViewController: UIViewController {
     
     var movie: NSDictionary! //movie passed through segue
     var movieDetails: NSDictionary? //movie details from the api request
-    
 
-    var count = 0
-    
-    
-    //subview for our gradient at the bottom of the backdrop image
-    let gradientLayer: CAGradientLayer = {
-        let layer = CAGradientLayer()
-        
-        layer.colors = [UIColor.clear.cgColor, UIColor.white.cgColor]
-        layer.locations = [0.7, 1.0]
-        
-        return layer
-    } ()
-    
-    //called whenever the subview is laid out
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-//        gradientLayer.frame = backdropImage.bounds
-        updateHeaderView()
-
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        updateHeaderView()
-    }
-    
-//    //manages changing size for the gradient
-//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-//        super.viewWillTransition(to: size, with: coordinator)
-//        gradientLayer.frame = self.backdropImage.bounds
-//        
-//    }
-
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -82,12 +48,21 @@ class DetailViewController: UIViewController {
         //Display HUD before the request is made
         MBProgressHUD.showAdded(to: self.view, animated: true)
         
+        
+        //call method for api request with completion block
         request(id: movieId, completion: {
             
             if let detailsDict = self.movieDetails {
                 //set the ui elements on the main thread.
                 let title = detailsDict["title"] as! String
                 let overview = detailsDict["overview"] as! String
+                
+                var genres = [""]
+                
+                for genre in (detailsDict["genres"] as! [NSDictionary]){
+                    genres.append(genre["name"] as! String)
+                }
+                
                 
                 
                 //set the base url
@@ -98,9 +73,6 @@ class DetailViewController: UIViewController {
                 if let backdropPath = detailsDict["backdrop_path"] as? String {
                     let backdropUrl = NSURL(string: posterBaseUrl + backdropPath)
                     self.backdropImage.setImageWith(backdropUrl as! URL)
-                    self.backdropImage.layer.addSublayer(self.gradientLayer)
-                    //self.gradientLayer.frame = self.backdropImage.bounds
-                    
                 }
                 
                 self.titleLabel.text = title
@@ -122,15 +94,7 @@ class DetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     //makes a network request to detailed information about the movie
     func request(id: Int, completion: @escaping () -> Void){
@@ -148,9 +112,6 @@ class DetailViewController: UIViewController {
             if let data = dataOrNil{
                 if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? NSDictionary {
                     //print(responseDictionary)
-                    
-                    
-                    
                     self.movieDetails = responseDictionary
                     
                     DispatchQueue.main.async {
@@ -162,9 +123,7 @@ class DetailViewController: UIViewController {
             }
         })
         task.resume()
-        
-        
-        
+
     }
     
     //updates the header
@@ -177,13 +136,7 @@ class DetailViewController: UIViewController {
             
             
         }
-        //        print(headerRect.size.height)
         self.backdropImage.frame = headerRect
-        
-        print(backdropImage.frame)
-//        gradientLayer.frame = self.backdropImage.bounds
-        
-
     }
 }
 
