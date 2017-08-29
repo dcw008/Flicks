@@ -29,23 +29,37 @@ class DetailViewController: UIViewController {
 
     var count = 0
     
-//    let gradientLayer: CAGradientLayer = {
-//        let layer = CAGradientLayer()
-//        
-//        layer.colors = [UIColor.clear.cgColor, UIColor.white.cgColor]
-//        layer.locations = [0.7, 1.0]
-//        
-//        return layer
-//    } ()
-//    
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//    
+    
+    //subview for our gradient at the bottom of the backdrop image
+    let gradientLayer: CAGradientLayer = {
+        let layer = CAGradientLayer()
+        
+        layer.colors = [UIColor.clear.cgColor, UIColor.white.cgColor]
+        layer.locations = [0.7, 1.0]
+        
+        return layer
+    } ()
+    
+    //called whenever the subview is laid out
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
 //        gradientLayer.frame = backdropImage.bounds
-//
+        updateHeaderView()
+
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        updateHeaderView()
+    }
+    
+//    //manages changing size for the gradient
+//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+//        super.viewWillTransition(to: size, with: coordinator)
+//        gradientLayer.frame = self.backdropImage.bounds
+//        
 //    }
-
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,8 +98,8 @@ class DetailViewController: UIViewController {
                 if let backdropPath = detailsDict["backdrop_path"] as? String {
                     let backdropUrl = NSURL(string: posterBaseUrl + backdropPath)
                     self.backdropImage.setImageWith(backdropUrl as! URL)
-//                    self.backdropImage.layer.addSublayer(self.gradientLayer)
-//                    self.gradientLayer.frame = self.backdropImage.bounds
+                    self.backdropImage.layer.addSublayer(self.gradientLayer)
+                    //self.gradientLayer.frame = self.backdropImage.bounds
                     
                 }
                 
@@ -108,8 +122,6 @@ class DetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    //375 x 164
-
     /*
     // MARK: - Navigation
 
@@ -155,28 +167,32 @@ class DetailViewController: UIViewController {
         
     }
     
-
-}
-
-extension DetailViewController: UIScrollViewDelegate{
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-       
-       
-        
-        //print(scrollView.contentOffset.y)
-        var height = self.imageHeight
-        var headerRect = CGRect(x:0, y:0, width: scrollView.bounds.width, height: self.imageHeight)
+    //updates the header
+    func updateHeaderView(){
+        print(backdropImage.frame)
+        var headerRect = CGRect(x:0, y:0, width: self.view.frame.width, height: self.imageHeight)
         if(scrollView.contentOffset.y + 64) < 0{
             headerRect.origin.y = scrollView.contentOffset.y + 64
             headerRect.size.height = -(64 + scrollView.contentOffset.y) + self.imageHeight
             
             
         }
-        print(headerRect.size.height)
+        //        print(headerRect.size.height)
         self.backdropImage.frame = headerRect
         
+        print(backdropImage.frame)
+//        gradientLayer.frame = self.backdropImage.bounds
+        
+
+    }
+}
+
+extension DetailViewController: UIScrollViewDelegate{
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+       
+        updateHeaderView()
+      
         
     }
     

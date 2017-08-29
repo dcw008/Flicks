@@ -40,7 +40,7 @@ class MovieCell: UITableViewCell {
             let dateText = dateFormatter.string(from: date!)
             
             
-            ratingLabel.text = "\(rating)/10"
+            ratingLabel.text = " \(rating)/10 "
             ratingLabel.textColor = UIColor.white
             
             //set the background color
@@ -66,6 +66,7 @@ class MovieCell: UITableViewCell {
             overviewTextView.isScrollEnabled = false
             overviewTextView.isScrollEnabled = true
             
+                      
 
 
             if let posterPath = movie["poster_path"] as? String {
@@ -87,6 +88,7 @@ class MovieCell: UITableViewCell {
                         } else {
                             print("Image was cached so just update the image")
                             self.posterView.image = image
+                            
                         }
                 },
                 failure: { (imageRequest, imageResponse, error) -> Void in
