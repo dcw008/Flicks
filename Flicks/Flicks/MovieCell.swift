@@ -27,6 +27,7 @@ class MovieCell: UITableViewCell {
     
     var movie: NSDictionary!{
         didSet{
+        
             let title = movie["title"] as! String
             let rating = movie["vote_average"] as! Float
             let releaseDate = movie["release_date"] as! String
