@@ -43,7 +43,7 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         
         self.scrollView.delegate = self
-        self.recommendedView.dataSource = self
+        //self.recommendedView.dataSource = self
         
         //offset = -self.scrollView.contentOffset.y
         
@@ -63,10 +63,17 @@ class DetailViewController: UIViewController {
         
         
         //call method for api request with completion block
-        detailRequest(id: movieId, completion: {
-            
+//        detailRequest(id: movieId, completion: {
+//            
+//           self.detailCompletion()
+//        })
+        
+        //details is a NSDictionary defined in MovieDBClient.getDetails
+        MovieDBClient.getDetails(id: movieId) { (details: NSDictionary?) in
+            self.movieDetails = details
             self.detailCompletion()
-        })
+            
+        }
         
         
         
@@ -162,63 +169,66 @@ class DetailViewController: UIViewController {
     
 
     
-    //makes a network request to detailed information about the movie
-    func detailRequest(id: Int, completion: @escaping () -> Void){
-        
-        //Network api request
-        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
-        let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)/recommendations?api_key=\(apiKey)")
-        
-        let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10);
-        
-        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
-        
-        let task : URLSessionDataTask = session.dataTask(with: request, completionHandler: { (dataOrNil, response, error) in
-            // ... Use the new data to update the data source ...
-            if let data = dataOrNil{
-                if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? NSDictionary {
-                    //print(responseDictionary)
-                    self.movieDetails = responseDictionary
-                    
-                    DispatchQueue.main.async {
-                        //change the UI on the main thread
-                        completion()
-                    }
-                    
-                }
-            }
-        })
-        task.resume()
-
-    }
+//    //makes a network request to detailed information about the movie
+//    func detailRequest(id: Int, completion: @escaping () -> Void){
+//        
+//        
+//        //Network api request
+//        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
+//        let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)?api_key=\(apiKey)")
+//        
+//        let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10);
+//        
+//        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
+//        
+//        let task : URLSessionDataTask = session.dataTask(with: request, completionHandler: { (dataOrNil, response, error) in
+//            // ... Use the new data to update the data source ...
+//            if let data = dataOrNil{
+//                if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? NSDictionary {
+//                    //print(responseDictionary)
+//                    self.movieDetails = responseDictionary
+//                    
+//                    DispatchQueue.main.async {
+//                        //change the UI on the main thread
+//                        completion()
+//                    }
+//                    
+//                }
+//            }
+//        })
+//        task.resume()
+//
+//    }
     
-    func recommendedRequest(id: Int, completion: @escaping () -> Void){
-        //Network api request
-        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
-        let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)?api_key=\(apiKey)")
-        
-        let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10);
-        
-        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
-        
-        let task : URLSessionDataTask = session.dataTask(with: request, completionHandler: { (dataOrNil, response, error) in
-            // ... Use the new data to update the data source ...
-            if let data = dataOrNil{
-                if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? [NSDictionary] {
-                    //print(responseDictionary)
-                    self.recomendedMovies = responseDictionary
-                    
-                    DispatchQueue.main.async {
-                        //change the UI on the main thread
-                        completion()
-                    }
-                    
-                }
-            }
-        })
-        task.resume()
-        
-    }
+//    func recommendedRequest(id: Int, completion: @escaping () -> Void){
+//        
+//        
+//        //Network api request
+//        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
+//        let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)/recommendations?api_key=\(apiKey)")
+//        
+//        let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10);
+//        
+//        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
+//        
+//        let task : URLSessionDataTask = session.dataTask(with: request, completionHandler: { (dataOrNil, response, error) in
+//            // ... Use the new data to update the data source ...
+//            if let data = dataOrNil{
+//                if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? [NSDictionary] {
+//                    //print(responseDictionary)
+//                    self.recomendedMovies = responseDictionary
+//                    
+//                    DispatchQueue.main.async {
+//                        //change the UI on the main thread
+//                        completion()
+//                    }
+//                    
+//                }
+//            }
+//        })
+//        task.resume()
+//        
+//    }
     
     //updates the header
     func updateHeaderView(){

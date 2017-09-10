@@ -14,6 +14,7 @@
 		4C7C5B1E1F4963C5000D7D95 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C7C5B191F4963C5000D7D95 /* Poppins-Medium.ttf */; };
 		4C7C5B1F1F4963C5000D7D95 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C7C5B1A1F4963C5000D7D95 /* Poppins-Regular.ttf */; };
 		4C7C5B201F4963C5000D7D95 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C7C5B1B1F4963C5000D7D95 /* Poppins-SemiBold.ttf */; };
+		4CD0A65E1F63F33800E657EA /* MovieDBClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD0A65D1F63F33800E657EA /* MovieDBClient.swift */; };
 		4CDF92581E26E025002648A1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF92571E26E025002648A1 /* DetailViewController.swift */; };
 		4CDF925A1E2C6AA5002648A1 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF92591E2C6AA5002648A1 /* Movie.swift */; };
 		4CDFBDEB1F57CF34002E191F /* MovieCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDFBDEA1F57CF34002E191F /* MovieCollectionCell.swift */; };
@@ -36,6 +37,7 @@
 		4C7C5B191F4963C5000D7D95 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-Medium.ttf"; path = "../../../../.Trash/Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		4C7C5B1A1F4963C5000D7D95 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-Regular.ttf"; path = "../../../../.Trash/Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		4C7C5B1B1F4963C5000D7D95 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-SemiBold.ttf"; path = "../../../../.Trash/Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
+		4CD0A65D1F63F33800E657EA /* MovieDBClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieDBClient.swift; sourceTree = "<group>"; };
 		4CDF92571E26E025002648A1 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		4CDF92591E2C6AA5002648A1 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		4CDFBDEA1F57CF34002E191F /* MovieCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieCollectionCell.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				4CE7BB2F1E1B8505003932F5 /* LaunchScreen.storyboard */,
 				4CE7BB321E1B8505003932F5 /* Info.plist */,
 				4CDF92591E2C6AA5002648A1 /* Movie.swift */,
+				4CD0A65D1F63F33800E657EA /* MovieDBClient.swift */,
 			);
 			path = Flicks;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 				4CE7BB271E1B8505003932F5 /* AppDelegate.swift in Sources */,
 				4CE7BB391E1B8623003932F5 /* MoviesViewController.swift in Sources */,
 				4C324E661E1DFB9200596B93 /* MovieCell.swift in Sources */,
+				4CD0A65E1F63F33800E657EA /* MovieDBClient.swift in Sources */,
 				4CDFBDEB1F57CF34002E191F /* MovieCollectionCell.swift in Sources */,
 				4CDF92581E26E025002648A1 /* DetailViewController.swift in Sources */,
 				4C77A29E1F5569EF0046EC18 /* LayerContainerView.swift in Sources */,

@@ -22,7 +22,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     //array of dictionaries that represent each movie
     var movies: [NSDictionary]?
-    
     //an array that keeps track of filtered data based on search bar field
     var filteredData: [NSDictionary]!
     
@@ -51,45 +50,21 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         //initialize filteredData to default data
         filteredData = movies
+              
         
-
-
-        //Network api request
-        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
-        let url = URL(string: "https://api.themoviedb.org/3/movie/\(endpoint!)?api_key=\(apiKey)")
-        let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10);
-        
-        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
-        
-        //Display HUD before the request is made
         MBProgressHUD.showAdded(to: self.view, animated: true)
-        
-
-        //set the task
-        let task: URLSessionDataTask = session.dataTask(with: request as URLRequest,completionHandler: { (dataOrNil, response, error) in
-            
-            // Hide HUD once the network request comes back (must be done on main UI thread)
+        MovieDBClient.getMovies(endpoint: endpoint) { (movies: [NSDictionary]?) in
+            self.movies = movies
             MBProgressHUD.hide(for: self.view, animated: true)
+            //print(self.movies)
+            self.filteredData = self.movies
+            self.tableView.reloadData()
             
-            if let data = dataOrNil {
-                
-                if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? NSDictionary {
-                    //print("response: \(responseDictionary)")
-                    
-                    //load the data then update filteredData
-                    self.movies = responseDictionary["results"] as? [NSDictionary]
-                    self.filteredData = self.movies
-                    print(self.movies)
-                    self.tableView.reloadData()
-                    
-                }
-            }
-            
-        })
-        task.resume()
+        }
+        
+        
     
     }
-
     //deselects the gray area after user pushes on the cell
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         //deselect of the gray cell
