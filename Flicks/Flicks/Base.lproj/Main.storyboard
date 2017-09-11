@@ -164,7 +164,7 @@
                                                 <rect key="frame" x="-1" y="211" width="375" height="138"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="24R-QB-hpg">
-                                                        <rect key="frame" x="104" y="8" width="241" height="26"/>
+                                                        <rect key="frame" x="104" y="8" width="41.5" height="26"/>
                                                         <fontDescription key="fontDescription" name="Poppins-Bold" family="Poppins" pointSize="18"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -226,7 +226,7 @@
                                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Cdb-y9-roQ" secondAttribute="bottom" constant="11" id="mw7-em-Yha"/>
                                                     <constraint firstItem="Gic-rJ-P8g" firstAttribute="leading" secondItem="JBs-7i-Jqd" secondAttribute="trailing" constant="7" id="sa8-mH-6Hk"/>
                                                     <constraint firstItem="Cdb-y9-roQ" firstAttribute="top" secondItem="A5M-pG-Pjr" secondAttribute="bottom" constant="8" id="uHx-mP-4vK"/>
-                                                    <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="24R-QB-hpg" secondAttribute="trailing" constant="30" id="ukO-Ad-2F8"/>
+                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="24R-QB-hpg" secondAttribute="trailing" constant="30" id="ukO-Ad-2F8"/>
                                                     <constraint firstAttribute="bottom" secondItem="JBs-7i-Jqd" secondAttribute="bottom" constant="8" id="utl-98-NHF"/>
                                                     <constraint firstItem="awX-CF-kql" firstAttribute="leading" secondItem="Gic-rJ-P8g" secondAttribute="trailing" constant="8" id="xpC-0H-FKY"/>
                                                     <constraint firstItem="JBs-7i-Jqd" firstAttribute="leading" secondItem="mmJ-sB-Koo" secondAttribute="leading" constant="8" id="zbJ-KN-wrG"/>
