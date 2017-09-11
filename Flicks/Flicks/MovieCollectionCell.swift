@@ -18,6 +18,8 @@ class MovieCollectionCell: UICollectionViewCell {
                 let posterBaseUrl = "http://image.tmdb.org/t/p/w500"
                 let posterUrl = NSURL(string: posterBaseUrl + posterPath)
                 self.posterImage.setImageWith(posterUrl as! URL)
+                self.posterImage.layer.masksToBounds = true
+                self.posterImage.layer.cornerRadius = 5.0
             }
         }
     }

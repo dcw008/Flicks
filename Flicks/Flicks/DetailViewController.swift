@@ -48,8 +48,8 @@ class DetailViewController: UIViewController {
         self.recommendedView.delegate = self
         
         flowLayout.scrollDirection = .horizontal
-        flowLayout.minimumInteritemSpacing = 10
-        //flowLayout.sectionInset
+//        flowLayout.minimumInteritemSpacing = 10
+        
         
         imageHeight = self.backdropImage.frame.height
         
@@ -165,6 +165,8 @@ class DetailViewController: UIViewController {
             }
             
             
+            self.posterImage.layer.masksToBounds = true
+            self.posterImage.layer.cornerRadius = 5.0
             
             self.titleLabel.text = title
             self.overviewLabel.text = overview
@@ -186,6 +188,19 @@ class DetailViewController: UIViewController {
             headerRect.size.height = -(64 + scrollView.contentOffset.y) + self.imageHeight
         }
         self.backdropImage.frame = headerRect
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let cell = sender as! UICollectionViewCell
+        let indexPath = recommendedView.indexPath(for: cell)
+        let movie = recomendedMovies![indexPath!.row]
+        
+        let detailViewController = segue.destination as! DetailViewController
+        
+        // pass the movie of the cell clicked on
+        detailViewController.movie = movie
+        
     }
 }
 
@@ -216,6 +231,4 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
         
         return cell
     }
-
-
 }

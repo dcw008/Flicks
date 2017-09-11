@@ -96,6 +96,9 @@ class MovieCell: UITableViewCell {
                     // do something for the failure condition
                     self.posterView.image = nil
                 })
+                
+                self.posterView.layer.masksToBounds = true
+                self.posterView.layer.cornerRadius = 5.0
             }
             
         }
