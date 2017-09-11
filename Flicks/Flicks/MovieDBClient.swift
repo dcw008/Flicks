@@ -15,6 +15,7 @@ class MovieDBClient {
     static let baseUrl = "https://api.themoviedb.org/3/movie/"
     static let recommendationString = "/recommendations"
     static let posterBaseUrl = "http://image.tmdb.org/t/p/w500"
+    static let youtubeBaseUrl = "https://www.youtube.com/embed/"
     
     
     //completion is a function closure that takes a NSDictionary
@@ -79,7 +80,7 @@ class MovieDBClient {
     //get the recommended movie when given a movie id
     class func getRecommendations(id: Int, completion: @escaping ([NSDictionary]?) -> Void){
         let url = URL(string: "\(baseUrl)\(id)\(recommendationString)?api_key=\(apiKey)")
-        print(url)
+        //print(url)
         
         let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10);
         
@@ -95,9 +96,9 @@ class MovieDBClient {
                     if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? NSDictionary {
                         
                         //print(results)
-                        print(responseDictionary)
+                        //print(responseDictionary)
                         let results = responseDictionary["results"] as? [NSDictionary]
-                        print("results:  \(results)")
+                        //print("results:  \(results)")
                         DispatchQueue.main.async {
                             completion(results)
                         }
@@ -114,6 +115,56 @@ class MovieDBClient {
         task.resume()
     }
     
+    
+    class func getTrailer(id: Int, completion: @escaping (String) -> Void){
+        
+        let url = URL(string: "\(baseUrl)\(id)/videos?api_key=\(apiKey)")
+        //print(url)
+        
+        let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10);
+        
+        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
+        
+        //set the task
+        let task: URLSessionDataTask = session.dataTask(with: request as URLRequest,completionHandler: { (dataOrNil, response, error) in
+            
+            if error == nil{
+                if let data = dataOrNil {
+                    
+                    
+                    if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? NSDictionary {
+                        
+                        //print(results)
+                        //(responseDictionary)
+                        let results = responseDictionary["results"] as? [NSDictionary]
+                        //print("results:  \(results)")
+                        
+                        //print(results)
+                        
+                        let firstResult = results?[0] as? NSDictionary
+                        
+                        print(firstResult)
+                        let key = firstResult?["key"] as! String
+                        
+                        print(key)
+                        
+                        
+                        DispatchQueue.main.async {
+                            completion(key)
+                        }
+                    }
+                }
+            } else{
+                print("ERROR")
+                print(error?.localizedDescription)
+            }
+            
+            
+            
+        })
+        task.resume()
+        
+    }
 
     
 }

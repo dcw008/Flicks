@@ -8,7 +8,8 @@
 
 import UIKit
 import MBProgressHUD
-
+import AVFoundation
+import AVKit
 
 class DetailViewController: UIViewController {
 
@@ -16,6 +17,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var backdropImage: UIImageView!
     
+    @IBOutlet weak var trailerButton: UIButton!
     @IBOutlet weak var overviewLabel: UILabel!
 
 
@@ -32,17 +34,23 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var recommendedView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    
+    
+    
     var imageHeight: CGFloat = 0.0
     
     var movie: NSDictionary! //movie passed through segue
     var movieDetails: NSDictionary? //movie details from the api request
     
     var recomendedMovies: [NSDictionary]?
+    
+    var trailerUrl: URL?
 
    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        makeWhite()
         self.scrollView.delegate = self
         self.recommendedView.dataSource = self
         self.recommendedView.delegate = self
@@ -70,9 +78,11 @@ class DetailViewController: UIViewController {
         MovieDBClient.getDetails(id: movieId) { (details: NSDictionary?) in
             self.movieDetails = details
             self.detailCompletion()
+            self.makeBlack()
             
         }
         
+        //get recommendations
         print("getting recommendations")
         MovieDBClient.getRecommendations(id: movieId) { (recommendations: [NSDictionary]?) in
             self.recomendedMovies = recommendations
@@ -81,11 +91,22 @@ class DetailViewController: UIViewController {
             self.recommendedView.reloadData()
         }
         
-//        print(recomendedMovies)
-        
+        //get trailer
+        MovieDBClient.getTrailer(id: movieId) { (key: String) in
+            print("key \(key)")
+            let url = URL(string: "\(MovieDBClient.youtubeBaseUrl)\(key)")
+            //print(url)
+            
+            if let url = url{
+                self.trailerUrl = url
+                print(self.trailerUrl)
+            }
+        }
+    
         
         
      }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -192,14 +213,40 @@ class DetailViewController: UIViewController {
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let cell = sender as! UICollectionViewCell
-        let indexPath = recommendedView.indexPath(for: cell)
-        let movie = recomendedMovies![indexPath!.row]
+        if(segue.identifier == "showDetails"){
+            let cell = sender as! UICollectionViewCell
+            let indexPath = recommendedView.indexPath(for: cell)
+            let movie = recomendedMovies![indexPath!.row]
+            
+            let detailViewController = segue.destination as! DetailViewController
+            
+            // pass the movie of the cell clicked on
+            detailViewController.movie = movie
+        } else if(segue.identifier == "showYoutubePlayer"){
+            let youtubeViewController = segue.destination as! YoutubeViewController
+            youtubeViewController.youtubeVideoUrl = self.trailerUrl
+        }
         
-        let detailViewController = segue.destination as! DetailViewController
         
-        // pass the movie of the cell clicked on
-        detailViewController.movie = movie
+    }
+    
+    func makeWhite(){
+        self.trailerButton.alpha = 0
+        self.timeLabel.textColor = .white
+        self.yearLabel.textColor = .white
+        self.genreLabel.textColor = .white
+        self.ratingLabel.textColor = .white
+        self.titleLabel.textColor = .white
+        self.overviewLabel.textColor = .white
+    }
+    
+    func makeBlack(){
+        self.trailerButton.alpha = 1
+        self.timeLabel.textColor = .black
+        self.yearLabel.textColor = .black
+        self.genreLabel.textColor = .black
+        self.titleLabel.textColor = .black
+        self.overviewLabel.textColor = .black
         
     }
 }
