@@ -96,6 +96,14 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		4CD0A65F1F6615B300E657EA /* APIClient */ = {
+			isa = PBXGroup;
+			children = (
+				4CD0A65D1F63F33800E657EA /* MovieDBClient.swift */,
+			);
+			name = APIClient;
+			sourceTree = "<group>";
+		};
 		4CE7BB1A1E1B8504003932F5 = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +126,7 @@
 		4CE7BB251E1B8505003932F5 /* Flicks */ = {
 			isa = PBXGroup;
 			children = (
+				4CD0A65F1F6615B300E657EA /* APIClient */,
 				4C98ED2A1F42CAF7003DDA2E /* Fonts */,
 				4C324E671E1DFB9B00596B93 /* ViewControllers */,
 				4C324E641E1DFB6C00596B93 /* Views */,
@@ -127,7 +136,6 @@
 				4CE7BB2F1E1B8505003932F5 /* LaunchScreen.storyboard */,
 				4CE7BB321E1B8505003932F5 /* Info.plist */,
 				4CDF92591E2C6AA5002648A1 /* Movie.swift */,
-				4CD0A65D1F63F33800E657EA /* MovieDBClient.swift */,
 			);
 			path = Flicks;
 			sourceTree = "<group>";

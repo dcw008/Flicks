@@ -50,7 +50,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         //initialize filteredData to default data
         filteredData = movies
-              
+        
         
         MBProgressHUD.showAdded(to: self.view, animated: true)
         MovieDBClient.getMovies(endpoint: endpoint) { (movies: [NSDictionary]?) in
@@ -61,10 +61,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             self.tableView.reloadData()
             
         }
-        
-        
-    
     }
+    
+    
     //deselects the gray area after user pushes on the cell
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         //deselect of the gray cell
@@ -76,32 +75,15 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     // Updates the tableView with the new data
     // Hides the RefreshControl
     func refreshControlAction(refreshControl: UIRefreshControl) {
-        
-        // ... Create the NSURLRequest (myRequest) ...
-        
-        //Network api request
-        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
-        let url = URL(string: "https://api.themoviedb.org/3/movie/\(endpoint!)?api_key=\(apiKey)")
-        let myRequest = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
-        
-        
-        // Configure session so that completion handler is executed on main UI thread
-        let session = URLSession(
-            configuration: URLSessionConfiguration.default,
-            delegate:nil,
-            delegateQueue:OperationQueue.main
-        )
-        
-        let task : URLSessionDataTask = session.dataTask(with: myRequest, completionHandler: { (data, response, error) in
-            // ... Use the new data to update the data source ...
-            
-            // Reload the tableView now that there is new data
+        MovieDBClient.getMovies(endpoint: endpoint) { (movies: [NSDictionary]?) in
+            self.movies = movies
+            MBProgressHUD.hide(for: self.view, animated: true)
+            //print(self.movies)
+            self.filteredData = self.movies
             self.tableView.reloadData()
-                                                                        
-            // Tell the refreshControl to stop spinning
             refreshControl.endRefreshing()
-        });
-        task.resume()
+            
+        }
     }
     
 
@@ -128,7 +110,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         let movie = filteredData![indexPath.row]
         cell.movie = movie
-//        cell.overviewTextView.scrollRangeToVisible(NSRange(location: 0, length:0))
 
         return cell
     }
@@ -175,8 +156,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         // pass the movie of the cell clicked on
         detailViewController.movie = movie
-        
-        //detailViewController.gradientLayer.frame = detailViewController.backdropImage.bounds
         
     }
     

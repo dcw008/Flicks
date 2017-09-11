@@ -9,17 +9,19 @@
 import UIKit
 import AFNetworking
 
-
+//Makes API Calls
 class MovieDBClient {
     static let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
     static let baseUrl = "https://api.themoviedb.org/3/movie/"
+    static let recommendationString = "/recommendations"
+    static let posterBaseUrl = "http://image.tmdb.org/t/p/w500"
     
     
     //completion is a function closure that takes a NSDictionary
     class func getDetails(id: Int, completion: @escaping (NSDictionary?) -> Void){
         
 //        var detailsDictionary: NSDictionary?
-        let url = URL(string: "\(MovieDBClient.baseUrl)\(id)?api_key=\(MovieDBClient.apiKey)")
+        let url = URL(string: "\(baseUrl)\(id)?api_key=\(apiKey)")
         
         let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10);
         
@@ -29,10 +31,6 @@ class MovieDBClient {
             // ... Use the new data to update the data source ...
             if let data = dataOrNil{
                 if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? NSDictionary {
-                    //print(responseDictionary)
-//                    self.movieDetails = responseDictionary
-                    
-//                    detailsDictionary = responseDictionary
                     
                     DispatchQueue.main.async {
                         //change the UI on the main thread
@@ -48,9 +46,8 @@ class MovieDBClient {
     //pass most popular endpoint or highly rated url endpoint
     class func getMovies(endpoint: String?, completion: @escaping ([NSDictionary]?) -> Void){
         
-        print("endpoint: \(endpoint!)")
         
-        let url = URL(string: "\(MovieDBClient.baseUrl)\(endpoint!)?api_key=\(apiKey)")
+        let url = URL(string: "\(baseUrl)\(endpoint!)?api_key=\(apiKey)")
         let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10);
         
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
@@ -62,11 +59,7 @@ class MovieDBClient {
             if let data = dataOrNil {
                 
                 if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? NSDictionary {
-                    //("response: \(responseDictionary)")
-                    
-                    //load the data then update filteredData
-                    
-                    
+
                     let results = responseDictionary["results"] as? [NSDictionary]
                     
                     //print(results)
@@ -78,6 +71,44 @@ class MovieDBClient {
                     
                 }
             }
+            
+        })
+        task.resume()
+    }
+    
+    //get the recommended movie when given a movie id
+    class func getRecommendations(id: Int, completion: @escaping ([NSDictionary]?) -> Void){
+        let url = URL(string: "\(baseUrl)\(id)\(recommendationString)?api_key=\(apiKey)")
+        print(url)
+        
+        let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10);
+        
+        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
+        
+        //set the task
+        let task: URLSessionDataTask = session.dataTask(with: request as URLRequest,completionHandler: { (dataOrNil, response, error) in
+            
+            if error == nil{
+                if let data = dataOrNil {
+
+                    
+                    if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? NSDictionary {
+                        
+                        //print(results)
+                        print(responseDictionary)
+                        let results = responseDictionary["results"] as? [NSDictionary]
+                        print("results:  \(results)")
+                        DispatchQueue.main.async {
+                            completion(results)
+                        }
+                    }
+                }
+            } else{
+                print("ERROR")
+                print(error?.localizedDescription)
+            }
+            
+            
             
         })
         task.resume()

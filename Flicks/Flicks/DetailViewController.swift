@@ -31,6 +31,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var genreLabel: UILabel!
     
     @IBOutlet weak var recommendedView: UICollectionView!
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     var imageHeight: CGFloat = 0.0
     
     var movie: NSDictionary! //movie passed through segue
@@ -43,13 +44,16 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         
         self.scrollView.delegate = self
-        //self.recommendedView.dataSource = self
+        self.recommendedView.dataSource = self
+        self.recommendedView.delegate = self
         
-        //offset = -self.scrollView.contentOffset.y
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumInteritemSpacing = 10
+        //flowLayout.sectionInset
         
         imageHeight = self.backdropImage.frame.height
         
-        print("original image height: \(imageHeight)")
+//        print("original image height: \(imageHeight)")
         
         self.titleLabel.textColor = UIColor.white
         self.overviewLabel.textColor = UIColor.white
@@ -62,18 +66,22 @@ class DetailViewController: UIViewController {
         MBProgressHUD.showAdded(to: self.view, animated: true)
         
         
-        //call method for api request with completion block
-//        detailRequest(id: movieId, completion: {
-//            
-//           self.detailCompletion()
-//        })
-        
         //details is a NSDictionary defined in MovieDBClient.getDetails
         MovieDBClient.getDetails(id: movieId) { (details: NSDictionary?) in
             self.movieDetails = details
             self.detailCompletion()
             
         }
+        
+        print("getting recommendations")
+        MovieDBClient.getRecommendations(id: movieId) { (recommendations: [NSDictionary]?) in
+            self.recomendedMovies = recommendations
+            
+            //reload the collection view.
+            self.recommendedView.reloadData()
+        }
+        
+//        print(recomendedMovies)
         
         
         
@@ -140,7 +148,8 @@ class DetailViewController: UIViewController {
             
             
             //set the base url
-            let posterBaseUrl = "http://image.tmdb.org/t/p/w500"
+            let posterBaseUrl = MovieDBClient.posterBaseUrl
+            
             
             
             // get the poster image
@@ -167,72 +176,10 @@ class DetailViewController: UIViewController {
         }
     }
     
-
     
-//    //makes a network request to detailed information about the movie
-//    func detailRequest(id: Int, completion: @escaping () -> Void){
-//        
-//        
-//        //Network api request
-//        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
-//        let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)?api_key=\(apiKey)")
-//        
-//        let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10);
-//        
-//        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
-//        
-//        let task : URLSessionDataTask = session.dataTask(with: request, completionHandler: { (dataOrNil, response, error) in
-//            // ... Use the new data to update the data source ...
-//            if let data = dataOrNil{
-//                if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? NSDictionary {
-//                    //print(responseDictionary)
-//                    self.movieDetails = responseDictionary
-//                    
-//                    DispatchQueue.main.async {
-//                        //change the UI on the main thread
-//                        completion()
-//                    }
-//                    
-//                }
-//            }
-//        })
-//        task.resume()
-//
-//    }
-    
-//    func recommendedRequest(id: Int, completion: @escaping () -> Void){
-//        
-//        
-//        //Network api request
-//        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
-//        let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)/recommendations?api_key=\(apiKey)")
-//        
-//        let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10);
-//        
-//        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
-//        
-//        let task : URLSessionDataTask = session.dataTask(with: request, completionHandler: { (dataOrNil, response, error) in
-//            // ... Use the new data to update the data source ...
-//            if let data = dataOrNil{
-//                if let responseDictionary = try! JSONSerialization.jsonObject(with: data, options:[]) as? [NSDictionary] {
-//                    //print(responseDictionary)
-//                    self.recomendedMovies = responseDictionary
-//                    
-//                    DispatchQueue.main.async {
-//                        //change the UI on the main thread
-//                        completion()
-//                    }
-//                    
-//                }
-//            }
-//        })
-//        task.resume()
-//        
-//    }
-    
-    //updates the header
+    //updates the header when viewDidScroll
     func updateHeaderView(){
-        print(backdropImage.frame)
+        //print(backdropImage.frame)
         var headerRect = CGRect(x:0, y:0, width: self.view.frame.width, height: self.imageHeight)
         if(scrollView.contentOffset.y + 64) < 0{
             headerRect.origin.y = scrollView.contentOffset.y + 64
@@ -245,18 +192,30 @@ class DetailViewController: UIViewController {
 extension DetailViewController: UIScrollViewDelegate{
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-       
         updateHeaderView()
-      
-        
+
     }
     
 }
 
-//extension DetailViewController: UICollectionViewDataSource{
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return 0
-//    }
-//    
-//    
-//}
+extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if let recommendedMovies = self.recomendedMovies{
+            return recommendedMovies.count
+        } else{
+            return 0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath as IndexPath) as! MovieCollectionCell
+        //let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CollectionViewCell", forIndexPath: indexPath) as! MovieCollectionCell
+        let movie = recomendedMovies![indexPath.row]
+        cell.movie = movie
+        
+        return cell
+    }
+
+
+}

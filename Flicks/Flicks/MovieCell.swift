@@ -71,7 +71,7 @@ class MovieCell: UITableViewCell {
 
 
             if let posterPath = movie["poster_path"] as? String {
-                let posterBaseUrl = "http://image.tmdb.org/t/p/w500"
+                let posterBaseUrl = MovieDBClient.posterBaseUrl
                 let posterUrl = NSURL(string: posterBaseUrl + posterPath)
                 let imageRequest = NSURLRequest(url: posterUrl! as URL)
                 self.posterView.setImageWith(imageRequest as URLRequest,
