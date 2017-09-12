@@ -35,7 +35,10 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var recommendedView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
+    @IBOutlet weak var gradientBar: LayerContainerView!
     
+    @IBOutlet weak var overviewHeader: UILabel!
+    @IBOutlet weak var recommendedHeader: UILabel!
     
     var imageHeight: CGFloat = 0.0
     
@@ -56,7 +59,6 @@ class DetailViewController: UIViewController {
         self.recommendedView.delegate = self
         
         flowLayout.scrollDirection = .horizontal
-//        flowLayout.minimumInteritemSpacing = 10
         
         
         imageHeight = self.backdropImage.frame.height
@@ -238,6 +240,9 @@ class DetailViewController: UIViewController {
         self.ratingLabel.textColor = .white
         self.titleLabel.textColor = .white
         self.overviewLabel.textColor = .white
+        self.gradientBar.alpha = 0.0
+        self.overviewHeader.alpha = 0
+        self.recommendedHeader.alpha = 0
     }
     
     func makeBlack(){
@@ -247,7 +252,9 @@ class DetailViewController: UIViewController {
         self.genreLabel.textColor = .black
         self.titleLabel.textColor = .black
         self.overviewLabel.textColor = .black
-        
+        self.gradientBar.alpha = 1
+        self.overviewHeader.alpha = 1
+        self.recommendedHeader.alpha = 1
     }
 }
 

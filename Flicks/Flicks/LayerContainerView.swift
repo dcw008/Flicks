@@ -8,9 +8,12 @@
 
 import UIKit
 
+
+
 //custom ui view for the gradient layer
 class LayerContainerView: UIView {
 
+    
     override public class var layerClass: Swift.AnyClass {
         return CAGradientLayer.self
     }

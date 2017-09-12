@@ -3,9 +3,7 @@
 **Flicks** is a movies app displaying box office and top rental DVDs using [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
 
-Time spent: **17** hours spent in total
-
-Time spent: **10+7 = 17** hours spent in total
+Time spent: **40** hours spent in total
 
 
 ## User Stories
@@ -39,7 +37,7 @@ Week 1:
 - [ ] Movies are displayed using a CollectionView instead of a TableView.
 - [x] User can search for a movie.
 - [x] All images fade in as they are loading.
-- [ ] Customize the UI.
+- [x] Customize the UI.
 
 
 =======
@@ -51,6 +49,12 @@ Week 2:
 The following **additional** features are implemented:
 
 - [ ] List anything else that you can get done to improve the app functionality!
+- [x] Scrollable TextView inside the table view cell
+- [x] Stretchy header image animation inside the details page
+- [x] Clear and white gradient at the bottom of the header
+- [x] Embed Youtube Video in the details page
+- [x] User can view ratings, runtime, date, genres
+- [x] Display recommended movies inside a collection view
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
@@ -61,7 +65,8 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/4014iO9.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/kM8SLsp.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
@@ -69,9 +74,20 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 Describe any challenges encountered while building the app.
 
+Getting the custom stretchy header on the details page was pretty challenging
+because it was the first time for me working with customizing UI with animations.
+Getting the animation to work with the gradient added later was also tricky because
+before, I was programmatically adding it as a sublayer. However, when the frame
+of the view was being updated upon scrolling, the gradient would adjust the height
+much slower because it had to calculate its dimensions each time. I ended up fixing
+this issue by having the gradient as a custom view, which visually has no noticeabledelay!
+
+It was also a good experience to access numerous different endpoints within the 
+MovieDatabaseAPI so I could get a lot of cool data on a certain page such as
+getting details, recommendations, and even a video trailer.
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2017] [Derrick Wong]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
