@@ -65,7 +65,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/8IXK0fjzBpA" frameborder="0" allowfullscreen></iframe>
+https://www.youtube.com/embed/8IXK0fjzBpA
 
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
