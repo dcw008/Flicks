@@ -54,6 +54,13 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         
         makeWhite()
+        
+        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: self, action: nil)
+
+        backButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Poppins-Light", size: 20)!], for: UIControlState.normal)
+        
+        navigationItem.backBarButtonItem = backButton
+
         self.scrollView.delegate = self
         self.recommendedView.dataSource = self
         self.recommendedView.delegate = self

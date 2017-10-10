@@ -47,7 +47,9 @@ class MovieCell: UITableViewCell {
             //set the background color
             var color: UIColor
             if rating > 8{
-                color = UIColor.green
+                
+                color = UIColor(red: 0.0863, green: 0.6667, blue: 0, alpha: 1.0)
+//                color = UIColor.green
             } else if rating > 6.5 {
                 color = UIColor.orange
             } else{

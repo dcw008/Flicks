@@ -31,6 +31,12 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: self, action: nil)
+        
+        backButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Poppins-Light", size: 20)!], for: UIControlState.normal)
+        
+        navigationItem.backBarButtonItem = backButton
+        
         // Initialize a UIRefreshControl
         let refreshControl = UIRefreshControl()
         
